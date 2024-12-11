@@ -23,7 +23,9 @@ with col2:
     Pilih menu untuk memulai analisis harga saham berdasarkan periode waktu yang diinginkan. Aplikasi ini dapat membantu memprediksi tren harga saham BRI berdasarkan data historis yang diunggah. 
     Anda dapat memilih periode waktu yang berbeda dan memperoleh visualisasi serta prediksi untuk masa depan.
     """, text_align="justify")
-    
+
+st.write("Unggah dataset untuk memulai analisis dan prediksi.")
+
 # Sidebar dengan pilihan periode waktu
 menu = st.sidebar.selectbox(
     "Pilih Menu",
@@ -74,19 +76,20 @@ else:
 
         # Menyimpan model yang sudah dilatih
         if menu == "Hari":
-            with open("bri_stock_model_hari.sav", "wb") as f:
+            with open("bri_stock_model_hari.pkl", "wb") as f:
                 pickle.dump(model, f)
         elif menu == "Minggu":
-            with open("bri_stock_model_minggu.sav", "wb") as f:
+            with open("bri_stock_model_minggu.pkl", "wb") as f:
                 pickle.dump(model, f)
         elif menu == "Bulan":
-            with open("bri_stock_model_bulan.sav", "wb") as f:
+            with open("bri_stock_model_bulan.pkl", "wb") as f:
                 pickle.dump(model, f)
 
         # Prediksi dan evaluasi model
         y_pred = model.predict(X_test)
         rmse = np.sqrt(mean_squared_error(y_test, y_pred))  # Menghitung Root Mean Squared Error
 
+        st.subheader("Hasil Prediksi")
         st.subheader("Visualisasi Tren Harga Saham")
 
         # Memeriksa kolom yang akan digunakan untuk visualisasi
@@ -135,7 +138,6 @@ else:
         })
 
         # Menampilkan hasil prediksi masa depan
-        st.subheader("Hasil Prediksi")
         st.write(future_df)
 
         # Menampilkan grafik dengan data historis dan prediksi masa depan
